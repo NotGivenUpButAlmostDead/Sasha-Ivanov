@@ -185,7 +185,8 @@ int main() {
 	cout << "Vvedite elementi dereva = ";
 	for (int i = 0; i < n; i++)
 	{
-		cin >> x;
+		//cin >> x;
+		x = rand() % 100;
 		Input(root, x);
 	}
 	cout << endl;
