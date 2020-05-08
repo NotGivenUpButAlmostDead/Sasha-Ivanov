@@ -229,7 +229,7 @@ int main() {
 	//cout << endl;
 	//cout << "////////Dopolnitelinay proverka//////// " << endl;
 	//cout << "Derevo bes kornya: ";
-	//Output(root);
+	Output(root);
 	//cout << endl;
 
 	int raz;
