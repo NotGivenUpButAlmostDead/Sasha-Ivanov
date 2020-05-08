@@ -26,7 +26,7 @@ struct spis {
 };
 
 
-void Input(Tree*& el, int v)
+void Input(Tree*& el, int v)// Ввод дерева
 {
 	if (el == NULL)
 	{
@@ -43,7 +43,7 @@ void Input(Tree*& el, int v)
 	}
 }
 
-void Output(Tree* el)
+void Output(Tree* el)// Вывод дерева
 {
 	if (el != NULL)
 	{
@@ -54,7 +54,7 @@ void Output(Tree* el)
 
 }
 
-void Detach(Tree* root, Tree* el)
+void Detach(Tree* root, Tree* el)// Обнуления ссылки на корень
 {
 	if (root == NULL || el == NULL)
 	{
@@ -73,7 +73,7 @@ void Detach(Tree* root, Tree* el)
 		Detach(root->right, el);
 	}
 }
-void Remove(Tree* el)
+void Remove(Tree* el)//Удаления корня и подкорня
 {
 	if (el != NULL)
 	{
@@ -82,7 +82,7 @@ void Remove(Tree* el)
 		delete el;
 	}
 }
-Tree* Find(Tree* el, int v)
+Tree* Find(Tree* el, int v)// Поиск корня
 {
 	Tree* result = NULL;
 	if (el == NULL)
@@ -104,7 +104,7 @@ Tree* Find(Tree* el, int v)
 	return result;
 }
 
-void Spisok(spis*& head, Tree* el, spis*& p)
+void Spisok(spis*& head, Tree* el, spis*& p)//Список с деревом
 {
 	if (el != NULL)
 	{
@@ -125,7 +125,7 @@ void Spisok(spis*& head, Tree* el, spis*& p)
 	}
 }
 
-void Out(spis* l) {
+void Out(spis* l) {//Вывод списка
 	cout << "Spisok: ";
 	while (l != NULL) {
 		cout << l->value << " ";
@@ -135,7 +135,7 @@ void Out(spis* l) {
 }
 
 
-const Tree* node_max(const Tree* tr) {
+const Tree* node_max(const Tree* tr) {//Максимум дерева(интернет)
 	if (tr == NULL)
 		return NULL;
 
@@ -146,14 +146,14 @@ const Tree* node_max(const Tree* tr) {
 }
 
 
-Tree* Max(Tree* root) {
+Tree* Max(Tree* root) {//Максимум дерева
 	while (root->right) {
 		root = root->right;
 	}
 	return root;
 }
 
-Tree* Min(Tree* root) {
+Tree* Min(Tree* root) {//Минимум дерева
 	while (root->left) {
 		root = root->left;
 	}
