@@ -21,9 +21,62 @@ struct spis {
 	spis* pointer;
 	spis() {
 		value = 0;
-		pointer = NULL;
+		pointer = ;
 	}
 };
+
+
+void AddToList(spis*& first, int n)
+{
+	spis* l = first;
+	spis* p = NULL;
+
+	while (true)
+	{
+		bool b = false;
+		if (l != NULL)
+		{
+			b = l->value < n;
+		}
+
+		if (b)
+		{
+			p = l;
+			l = l->pointer;
+		}
+		else
+		{
+			ListElement* el = new ListElement();
+			el->value = n;
+
+			el->pointer = l;
+			if (p != NULL)
+			{
+				p->pointer = el;
+			}
+			else
+			{
+				first = el;
+			}
+			break;
+		}
+	}
+}
+
+void InputList(spis*& first)
+{
+	spis* p = first;
+
+	int n = 10000000;
+
+	int i = 0;
+	while (i < n)
+	{
+		AddToList(first, 2);
+		i++;
+	}
+}
+
 
 
 void Input(Tree*& el, int v)// Ввод дерева
@@ -54,63 +107,14 @@ void Output(Tree* el)// Вывод дерева
 
 }
 
-void Detach(Tree* root, Tree* el)// Обнуления ссылки на корень
-{
-	if (root == NULL || el == NULL)
-	{
-		return;
-	}
-	else if (root->left == el)
-	{
-		root->left = NULL;
-	}
-	else if (root->right == el)
-	{
-		root->right = NULL;
-	}
-	{
-		Detach(root->left, el);
-		Detach(root->right, el);
-	}
-}
-void Remove(Tree* el)//Удаления корня и подкорня
-{
-	if (el != NULL)
-	{
-		Remove(el->left);
-		Remove(el->right);
-		delete el;
-	}
-}
-Tree* Find(Tree* el, int v)// Поиск корня
-{
-	Tree* result = NULL;
-	if (el == NULL)
-	{
-		result = NULL;
-	}
-	else if (el->value == v)
-	{
-		result = el;
-	}
-	else
-	{
-		result = Find(el->left, v);
-		if (result == NULL)
-		{
-			result = Find(el->right, v);
-		}
-	}
-	return result;
-}
 
-void Spisok(spis*& head, Tree* el, spis*& p)//Список с деревом
+void Spisok(Tree*& head, spis* el, Tree*& p)//Список с деревом
 {
-	if (el != NULL)
+	if (head != NULL)
 	{
-		spis* p1 = new spis;
+		Tree* root = new Tree;
 		Spisok(head, el->left, p);
-		p1->value = el->value;
+		root->value = head->value;
 		if (p == NULL)
 		{
 			head = p1;
@@ -134,122 +138,68 @@ void Out(spis* l) {//Вывод списка
 	cout << endl;
 }
 
-
-const Tree* node_max(const Tree* tr) {//Максимум дерева(интернет)
-	if (tr == NULL)
-		return NULL;
-
-	const Tree* p = tr;
-	while (p->right != NULL)
-		p = p->right;
-	return p;
-}
-
-
-Tree* Max(Tree* root) {//Максимум дерева
-	while (root->right) {
-		root = root->right;
-	}
-	return root;
-}
-
-Tree* Min(Tree* root) {//Минимум дерева
-	while (root->left) {
-		root = root->left;
-	}
-	return root;
-}
-
-Tree* udal_hecnhet(Tree* root) //Функция удаления четных листьев бинарного дерева
+int NodeCount(Tree* node)
 {
-	if (!root)
-		return 0;
-	if (!root->left && !root->right && !(root->value % 2))
-	{
-		delete(root);
-		return 0;
-	}
-	root->left = udal_hecnhet(root->left);
-	root->right = udal_hecnhet(root->right);
-	return root;
+	if (node->left == NULL && node->right == NULL)
+		return 1;
+	int left, right;
+	if (node->left != NULL)
+		left = NodeCount(node->left);
+	else
+		left = 0;
+	if (node->right != NULL)
+		right = NodeCount(node->right);
+	else
+		right = 0;
+
+	return left + right + 1;
 }
 
+
+int Sum(Tree* el)
+{
+	/*
+	Данныя функция найдет сумму элементов в поддереве, на которое ссылает el.
+	Сначала она посчитает сумму для левого поддерева (el->left).
+	Потом она посчитает сумму для правого поддерева (el->rigth).
+	Далее она сложит две найденные суммы между собой и прибавит к ним значение элемента,
+	которое хранится в el->value
+	Возможная ошибка: поиск суммы в el, в то время, как el == NULL.
+	Чтобы ее избежать, вводится простая соответствующая проверка.
+	Если проверка не пройдена, то функция вернет 0.
+	*/
+	if (el != NULL)
+	{
+		int l = Sum(el->left); //сумма для левого поддерева
+		int r = Sum(el->right); //сумма для правого поддерева
+
+		return l + r + el->value;
+	}
+	else
+	{
+		return 0;
+	}
+}
 
 int main() {
 	Tree* root = NULL;
-	spis* first = NULL;
-	spis* two = NULL;
-	cout << "Vvedite kolichestvo dereva = ";
-	int n, x;
-	cin >> n;
-	cout << "Vvedite elementi dereva = ";
-	for (int i = 0; i < n; i++)
+	Tree* first = NULL;
+	spis* head;
+
+	spis* p = head;
+	while (p != NULL)
 	{
-		//cin >> x;
-		x = rand() % 100;
-		Input(root, x);
+		(p->value % 2 == 0)
+	{
+		int v = p->value;
+		input(root, v);
+		p = p->pointer;
 	}
-	cout << endl;
+	else {
+	p = p->pointer;
+}
+	}
 
-	cout << "Derevo: ";//Вывод дерева
-	Output(root);
-	cout << endl;
-
-	Spisok(first, root, two);//Вывод списка (которое преобразовано)
-	Out(first);
-
-	Tree* e3 = Max(root);//Максимум дерева
-	cout << "Max = " << e3->value;
-	cout << endl;
-
-	Tree* e4 = Min(root);//Минимум дерева
-	cout << "Min = " << e4->value;
-	cout << endl;
-
-	int sumchis;//Сумма минимума и максимума
-	cout << "Summa min max = " << e4->value + e3->value;
-	cout << endl;
-
-	//int ud;//Удаления корня дерева
-	//cout << endl;
-	//cout << "VVedite koren kotoriy udaliti = ";
-	//cin >> ud;
-	//Tree* e = Find(root, ud);
-	//Detach(root, e);
-	//Remove(e);
-	//cout << endl;
-
-	//cout << "Derevo bes kornya: ";
-	//Output(root);
-	//cout << endl;
-
-	//Tree* e1 = Find(root, ud);
-	//Detach(root, e1);
-	//Remove(e1);
-	//cout << endl;
-	//cout << endl;
-	//cout << "////////Dopolnitelinay proverka//////// " << endl;
-	//cout << "Derevo bes kornya: ";
-	//Output(root);
-	//cout << endl;
-
-	int raz;
-	cout << "VVedite koren kotoriy razdel = ";
-	cin >> raz;
-	Tree* e6 = Find(root, raz);
-	Detach(root, e6);
-	cout << "Derevo otsoedinenoe: ";
-	Output(root);
-	cout << endl;
-
-	cout << "Derevo otsoedinenoe 2: ";
-	Output(e6);
-	cout << endl;
-
-	Tree* e5 = udal_hecnhet(root);// Удаления нечетных элементов
-	cout << "Derevo bes chet: ";
-	Output(root);
-	cout << endl;
 
 
 	system("pause");
